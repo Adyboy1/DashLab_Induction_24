@@ -3,33 +3,28 @@ import os
 import json
 import time
 
-# Configure the Gemini API key using environment variable
 genai.configure(api_key=os.environ.get("API_KEY"))
 
-# Specify the model you want to use
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-# Prepare the list to store the JSON objects
 output_data = []
 
-# Read prompts from the input file
 input_file_path = 'input.txt'  # Path to the input file
 with open(input_file_path, "r") as infile:
     prompts = infile.readlines()
 
-# Function to call the Gemini API and process each prompt
-def get_gemini_response(prompt):
-    start_time = time.time()  # TimeSent as UNIX Timestamp
 
-    # Make API call to Gemini
+def get_gemini_response(prompt):
+    start_time = time.time()  
+   
     response = model.generate_content(prompt.strip())
     
-    end_time = time.time()  # TimeRecvd as UNIX Timestamp
+    end_time = time.time()  
     
     # Parse the response
-    message = response.text  # Extract the response text
+    message = response.text  
 
-    # Create a dictionary for the JSON object
+    
     result = {
         "Prompt": prompt.strip(),
         "Message": message,
@@ -40,9 +35,9 @@ def get_gemini_response(prompt):
 
     return result
 
-# Iterate over prompts and collect responses
+
 for prompt in prompts:
-    if prompt.strip():  # Ensure there are no empty lines
+    if prompt.strip(): 
         response_data = get_gemini_response(prompt)
         output_data.append(response_data)
 
